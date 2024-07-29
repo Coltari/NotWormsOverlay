@@ -47,13 +47,15 @@ func generate_level():
 	pass
 
 func spawn_worm(user):
-	for node in players:
+	for node in players.get_children():
 		if node.PlayerName == user:
 			return
 	#if we've got this far they're not in the game
 	var n = WORM.instantiate()
 	n.PlayerName = user
 	#randomise position
+	n.position.y = 100
+	n.position.x = randi_range(10,1150)
 	players.add_child(n)
 
 
