@@ -55,3 +55,7 @@ func spawn_worm(user):
 	n.PlayerName = user
 	#randomise position
 	players.add_child(n)
+
+
+func _on_deathzone_body_entered(body):
+	body.queue_free()
