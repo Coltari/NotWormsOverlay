@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://cabr002sdouvf"]
+
+[ext_resource type="Texture2D" uid="uid://lucty12i162g" path="res://icon.svg" id="1_6mdcf"]
+[ext_resource type="Script" path="res://LandScape/landmass.gd" id="1_ydmjt"]
+[ext_resource type="Script" path="res://addons/twitcher/twitch_irc_channel.gd" id="3_1y7y0"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_ydmjt")
+
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(53, 608)
+texture = ExtResource("1_6mdcf")
+
+[node name="Icon2" type="Sprite2D" parent="."]
+position = Vector2(150, 550)
+texture = ExtResource("1_6mdcf")
+
+[node name="Icon3" type="Sprite2D" parent="."]
+position = Vector2(214, 611)
+texture = ExtResource("1_6mdcf")
+
+[node name="Icon4" type="Sprite2D" parent="."]
+position = Vector2(300, 566)
+texture = ExtResource("1_6mdcf")
+
+[node name="Icon5" type="Sprite2D" parent="."]
+position = Vector2(387, 620)
+texture = ExtResource("1_6mdcf")
+
+[node name="TwitchIrcChannel" type="Node" parent="."]
+script = ExtResource("3_1y7y0")
+channel_name = "Coltari"
+
+[node name="water" type="Node" parent="."]
+
+[node name="ground" type="Node" parent="."]
+
+[node name="players" type="Node" parent="."]
+
+[node name="ui" type="CanvasLayer" parent="."]
+
+[connection signal="message_received" from="TwitchIrcChannel" to="." method="_on_twitch_irc_channel_message_received"]
