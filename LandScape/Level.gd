@@ -1,3 +1,4 @@
+@tool
 extends Node2D
 
 @onready var players = $players
@@ -7,6 +8,7 @@ extends Node2D
 const WORM = preload("res://Entities/worm.tscn")
 const DIRT = preload("res://Entities/dirt.tscn")
 @export var noise : FastNoiseLite
+@export var surfacenoise : FastNoiseLite
 
 var tcount : int = 0
 
@@ -92,24 +94,34 @@ func _on_twitch_irc_channel_message_received(from_user, message, _tags):
 func generate_level():
 	randomize()
 	#get noise
-	#at present sprite size is 32x32
-	#need to check value every 32 pixels
+	noise.seed = randi()
+	surfacenoise.seed = randi()
+	# for surface noise
+	#on every x sum the y noise value.
+	#if over threshold place block.
 	#take a slice
-	for y in 700:
-		if y < 450:
+	var s : float = 0.0
+
+	for x in 1300:
+		if x % 8 != 0:
 			continue
-		if y % 8 != 0:
-			continue
-		for x in 1200:
-			if x % 8 != 0:
+		for y in 300:
+			if y % 8 != 0:
 				continue
 			var n = noise.get_noise_2d(x,y)
-			if n > -0.1:
-				var d = DIRT.instantiate()
-				d.position = Vector2(x,y)
-				ground.add_child(d)
-	#drop blocks
-	pass
+			#get this value at x.
+			s = surfacenoise.get_noise_1d(x)
+			#map it to a y scale
+			var perc = (s+1)/2
+			var yperc = (300-y)*perc
+			print("percentage ", perc, " y ", 300-y, " yperc ", yperc)
+			if yperc < 65:
+			#if y is under scale, place.
+				if n > -0.1:
+					var d = DIRT.instantiate()
+					d.position = Vector2(x-8,y+400)
+					ground.add_child(d)
+
 
 func spawn_worm(user):
 	for node in players.get_children():
