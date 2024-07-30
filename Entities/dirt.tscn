@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://bbeqyii41yy25"]
+
+[ext_resource type="Texture2D" uid="uid://lucty12i162g" path="res://icon.svg" id="1_cld24"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5wgnk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_cld24")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5p1i7"]
+size = Vector2(30, 30)
+
+[node name="Dirt" type="StaticBody2D" groups=["ground"]]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
+sprite_frames = SubResource("SpriteFrames_5wgnk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_5p1i7")

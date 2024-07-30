@@ -11,13 +11,14 @@ config_version=5
 [application]
 
 config/name="NotWormsOverlay"
-run/main_scene="res://LandScape/landmass.tscn"
+run/main_scene="res://LandScape/Level.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
 HttpClientManager="*res://addons/twitcher/communication/http_client_manager.gd"
+Events="*res://Engine/Events.gd"
 
 [display]
 

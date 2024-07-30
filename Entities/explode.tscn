@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=3 uid="uid://cdvoy18c1cyoy"]
+
+[ext_resource type="Texture2D" uid="uid://c2tenpscope7r" path="res://assets/images/fireglow.png" id="1_rcial"]
+[ext_resource type="Script" path="res://Entities/explode.gd" id="2_nr80m"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yvup3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_rcial")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_obhxw"]
+radius = 56.0089
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_a45w2"]
+particle_flag_disable_z = true
+angle_max = 378.9
+direction = Vector3(0, 0, 0)
+spread = 20.0
+initial_velocity_min = 90.23
+initial_velocity_max = 503.76
+gravity = Vector3(0, 98, 0)
+
+[node name="Explode" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_yvup3")
+script = ExtResource("2_nr80m")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_obhxw")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 40
+process_material = SubResource("ParticleProcessMaterial_a45w2")
+lifetime = 0.8
+one_shot = true
+speed_scale = 4.03
+explosiveness = 1.0
+interp_to_end = 0.797
+trail_lifetime = 0.01
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="finished" from="GPUParticles2D" to="." method="_on_gpu_particles_2d_finished"]

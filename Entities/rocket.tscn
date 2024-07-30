@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://dj6yg4o78ih2l"]
+
+[ext_resource type="Script" path="res://Entities/rocket.gd" id="1_f14mt"]
+[ext_resource type="Texture2D" uid="uid://lucty12i162g" path="res://icon.svg" id="1_ly13b"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_f0fsx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ly13b")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hpiny"]
+size = Vector2(28, 28)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fh3dk"]
+size = Vector2(34, 34)
+
+[node name="Rocket" type="RigidBody2D"]
+collision_layer = 4
+script = ExtResource("1_f14mt")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
+sprite_frames = SubResource("SpriteFrames_f0fsx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_hpiny")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_fh3dk")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
