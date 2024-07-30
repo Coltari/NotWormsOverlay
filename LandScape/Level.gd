@@ -8,6 +8,8 @@ const WORM = preload("res://Entities/worm.tscn")
 const DIRT = preload("res://Entities/dirt.tscn")
 @export var noise : FastNoiseLite
 
+var tcount : int = 0
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	get_viewport().transparent_bg = true
@@ -18,7 +20,8 @@ func _ready():
 	Events.add_explosion.connect(add_explosion)
 
 func add_explosion(explosion):
-	add_child(explosion)
+	call_deferred("add_child",explosion)
+	#add_child(explosion)
 
 func add_rocket(rocket):
 	projectiles.add_child(rocket)
@@ -95,10 +98,10 @@ func generate_level():
 	for y in 700:
 		if y < 450:
 			continue
-		if y % 32 != 0:
+		if y % 8 != 0:
 			continue
 		for x in 1200:
-			if x % 32 != 0:
+			if x % 8 != 0:
 				continue
 			var n = noise.get_noise_2d(x,y)
 			if n > -0.1:
@@ -123,3 +126,16 @@ func spawn_worm(user):
 func _on_deathzone_body_entered(body):
 	#dish out points
 	body.queue_free()
+
+
+func _on_button_pressed():
+	spawn_worm("test"+str(tcount))
+	tcount+=1
+
+
+func _on_button_2_pressed():
+	for n in players.get_children():
+		n.queue_free()
+	for n in ground.get_children():
+		n.queue_free()
+	generate_level()

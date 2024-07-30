@@ -17,6 +17,7 @@ animations = [{
 size = Vector2(30, 30)
 
 [node name="Dirt" type="StaticBody2D" groups=["ground"]]
+scale = Vector2(0.25, 0.25)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.25, 0.25)

@@ -25,6 +25,19 @@ channel_name = "Coltari"
 
 [node name="ui" type="CanvasLayer" parent="."]
 
+[node name="VBoxContainer" type="VBoxContainer" parent="ui"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Button" type="Button" parent="ui/VBoxContainer"]
+layout_mode = 2
+text = "spawn worm"
+
+[node name="Button2" type="Button" parent="ui/VBoxContainer"]
+layout_mode = 2
+text = "refresh landmass
+"
+
 [node name="deathzone" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="deathzone"]
@@ -32,4 +45,6 @@ position = Vector2(551, 726)
 shape = SubResource("WorldBoundaryShape2D_8xn6w")
 
 [connection signal="message_received" from="TwitchIrcChannel" to="." method="_on_twitch_irc_channel_message_received"]
+[connection signal="pressed" from="ui/VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="ui/VBoxContainer/Button2" to="." method="_on_button_2_pressed"]
 [connection signal="body_entered" from="deathzone" to="." method="_on_deathzone_body_entered"]

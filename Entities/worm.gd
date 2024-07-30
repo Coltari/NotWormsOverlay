@@ -4,11 +4,13 @@ extends CharacterBody2D
 @onready var movement_timer = $MovementTimer
 @onready var label = $Label
 @onready var progress_bar = $ProgressBar
+@onready var health_bar = $healthBar
 
-const SPEED = 300.0
-const AIRSPEED = 250.0
-const JUMP_VELOCITY = -400.0
+const SPEED = 100.0
+const AIRSPEED = 50.0
+const JUMP_VELOCITY = -200.0
 const ROCKET = preload("res://Entities/rocket.tscn")
+var health : int = 100
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -20,6 +22,7 @@ var facing
 var firing : bool = false
 
 func _ready():
+	health_bar.value = health
 	var f = randi_range(0,1)
 	if f == 0: 
 		facing = facingDirection.LEFT
@@ -64,6 +67,7 @@ func fire(angle,thrust):
 	var r = ROCKET.instantiate()
 	r.position = self.position
 	r.firingdata(angle,thrust)
+	progress_bar.visible = true
 	firing = true
 	#2 seconds is 100%
 	#1000 thrust is 100%
@@ -75,6 +79,7 @@ func fire(angle,thrust):
 	Events.add_rocket.emit(r)
 	firing = false
 	progress_bar.value = 0
+	progress_bar.visible = false
 
 func jump():
 	if is_on_floor():
@@ -82,3 +87,7 @@ func jump():
 
 func _on_movement_timer_timeout():
 	moving = false
+
+func takedamage(val):
+	health -= val
+	health_bar.value = health
