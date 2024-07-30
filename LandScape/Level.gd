@@ -4,6 +4,7 @@ extends Node2D
 @onready var players = $players
 @onready var ground = $ground
 @onready var projectiles = $projectiles
+@onready var label = $ui/Label
 
 const WORM = preload("res://Entities/worm.tscn")
 const DIRT = preload("res://Entities/dirt.tscn")
@@ -96,26 +97,20 @@ func generate_level():
 	#get noise
 	noise.seed = randi()
 	surfacenoise.seed = randi()
-	# for surface noise
-	#on every x sum the y noise value.
-	#if over threshold place block.
-	#take a slice
-	var s : float = 0.0
-
-	for x in 1300:
+	
+	for x in 1160:
 		if x % 8 != 0:
 			continue
-		for y in 300:
+		for y in 248:
 			if y % 8 != 0:
 				continue
 			var n = noise.get_noise_2d(x,y)
 			#get this value at x.
-			s = surfacenoise.get_noise_1d(x)
+			var s = surfacenoise.get_noise_1d(x)
 			#map it to a y scale
 			var perc = (s+1)/2
-			var yperc = (300-y)*perc
-			print("percentage ", perc, " y ", 300-y, " yperc ", yperc)
-			if yperc < 65:
+			var yperc = (248-y)*perc
+			if yperc < 45:
 			#if y is under scale, place.
 				if n > -0.1:
 					var d = DIRT.instantiate()
@@ -137,7 +132,10 @@ func spawn_worm(user):
 
 func _on_deathzone_body_entered(body):
 	#dish out points
+	label.text = body.PlayerName + " is swimming with the fishies"
 	body.queue_free()
+	await get_tree().create_timer(2).timeout
+	label.text = ""
 
 
 func _on_button_pressed():
