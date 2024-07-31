@@ -5,10 +5,11 @@ extends CharacterBody2D
 @onready var label = $Label
 @onready var progress_bar = $ProgressBar
 @onready var health_bar = $healthBar
+@onready var state_machine = $StateMachine
 
 const SPEED = 100.0
-const AIRSPEED = 50.0
-const JUMP_VELOCITY = -200.0
+const AIRSPEED = 80.0
+const JUMP_VELOCITY = -300.0
 const ROCKET = preload("res://Entities/rocket.tscn")
 var health : int = 100
 
@@ -38,52 +39,19 @@ func _process(_delta):
 		progress_bar.value += (50*_delta)
 
 func _physics_process(delta):
-	# Add the gravity.
-	if not is_on_floor():
-		if facing == facingDirection.RIGHT:
-			velocity.x = 1 * AIRSPEED
-		else:
-			velocity.x = -1 * AIRSPEED
-		velocity.y += gravity * delta
-	elif moving:
-		velocity.x = direction * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-
 	move_and_slide()
 
 func move(dir, time):
-	if dir > 0:
-		facing = facingDirection.RIGHT
-	else:
-		facing = facingDirection.LEFT
-	direction = dir
-	movement_timer.wait_time = time
-	velocity.x = direction * SPEED
-	moving = true
-	movement_timer.start()
+	if state_machine.state.has_method("canMove"):
+		state_machine.state.canMove(dir, time)
 
 func fire(angle,thrust):
-	var r = ROCKET.instantiate()
-	r.position = self.position
-	r.firingdata(angle,thrust)
-	progress_bar.visible = true
-	firing = true
-	#2 seconds is 100%
-	#1000 thrust is 100%
-	#get thrust %
-	var pc = (thrust/1000.0)
-	#apply % to max time
-	var t = 2*pc
-	await get_tree().create_timer(t).timeout
-	Events.add_rocket.emit(r)
-	firing = false
-	progress_bar.value = 0
-	progress_bar.visible = false
+	if state_machine.state.has_method("canFire"):
+		state_machine.state.canFire(angle,thrust)
 
 func jump():
-	if is_on_floor():
-		velocity.y = JUMP_VELOCITY
+	if state_machine.state.has_method("canJump"):
+		state_machine.state.canJump()
 
 func _on_movement_timer_timeout():
 	moving = false
