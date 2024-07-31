@@ -1,7 +1,16 @@
-[gd_scene load_steps=7 format=3 uid="uid://jtu8jcontc0k"]
+[gd_scene load_steps=16 format=3 uid="uid://jtu8jcontc0k"]
 
 [ext_resource type="Texture2D" uid="uid://lucty12i162g" path="res://icon.svg" id="1_hbpvs"]
 [ext_resource type="Script" path="res://Entities/worm.gd" id="1_woi0x"]
+[ext_resource type="Script" path="res://Engine/StateMachine.gd" id="3_gyknw"]
+[ext_resource type="Script" path="res://Entities/WormStates/Spawning.gd" id="4_hff2r"]
+[ext_resource type="Script" path="res://Entities/WormStates/Moving.gd" id="5_5eabt"]
+[ext_resource type="Script" path="res://Entities/WormStates/Jumping.gd" id="6_dy5f1"]
+[ext_resource type="Script" path="res://Entities/WormStates/Falling.gd" id="7_h3k66"]
+[ext_resource type="Script" path="res://Entities/WormStates/RagDoll.gd" id="8_e73tw"]
+[ext_resource type="Script" path="res://Entities/WormStates/Firing.gd" id="9_tb720"]
+[ext_resource type="Script" path="res://Entities/WormStates/Dying.gd" id="10_kl071"]
+[ext_resource type="Script" path="res://Entities/WormStates/Idle.gd" id="11_gi4dd"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_y7vx3"]
 animations = [{
@@ -70,5 +79,33 @@ rounded = true
 texture_progress = SubResource("GradientTexture2D_psr6p")
 tint_under = Color(0.243569, 0.243569, 0.243569, 1)
 tint_progress = Color(0.900564, 0, 0.01649, 1)
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("3_gyknw")
+initial_state = NodePath("Spawning")
+
+[node name="Spawning" type="Node" parent="StateMachine"]
+script = ExtResource("4_hff2r")
+
+[node name="Moving" type="Node" parent="StateMachine"]
+script = ExtResource("5_5eabt")
+
+[node name="Jumping" type="Node" parent="StateMachine"]
+script = ExtResource("6_dy5f1")
+
+[node name="Falling" type="Node" parent="StateMachine"]
+script = ExtResource("7_h3k66")
+
+[node name="RagDoll" type="Node" parent="StateMachine"]
+script = ExtResource("8_e73tw")
+
+[node name="Firing" type="Node" parent="StateMachine"]
+script = ExtResource("9_tb720")
+
+[node name="Dying" type="Node" parent="StateMachine"]
+script = ExtResource("10_kl071")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("11_gi4dd")
 
 [connection signal="timeout" from="MovementTimer" to="." method="_on_movement_timer_timeout"]

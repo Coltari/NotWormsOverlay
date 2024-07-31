@@ -7,8 +7,8 @@ extends CharacterBody2D
 @onready var health_bar = $healthBar
 
 const SPEED = 100.0
-const AIRSPEED = 50.0
-const JUMP_VELOCITY = -200.0
+const AIRSPEED = 80.0
+const JUMP_VELOCITY = -300.0
 const ROCKET = preload("res://Entities/rocket.tscn")
 var health : int = 100
 
