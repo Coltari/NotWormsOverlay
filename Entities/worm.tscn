@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://jtu8jcontc0k"]
+[gd_scene load_steps=16 format=3 uid="uid://jtu8jcontc0k"]
 
 [ext_resource type="Texture2D" uid="uid://lucty12i162g" path="res://icon.svg" id="1_hbpvs"]
 [ext_resource type="Script" path="res://Entities/worm.gd" id="1_woi0x"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://Entities/WormStates/Firing.gd" id="9_tb720"]
 [ext_resource type="Script" path="res://Entities/WormStates/Dying.gd" id="10_kl071"]
 [ext_resource type="Script" path="res://Entities/WormStates/Idle.gd" id="11_gi4dd"]
+[ext_resource type="PackedScene" uid="uid://b2kq5ewkrj47a" path="res://Entities/weapon.tscn" id="11_qmdrf"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_y7vx3"]
 animations = [{
@@ -43,6 +44,8 @@ sprite_frames = SubResource("SpriteFrames_y7vx3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_j1roh")
+
+[node name="Weapon" parent="." instance=ExtResource("11_qmdrf")]
 
 [node name="MovementTimer" type="Timer" parent="."]
 one_shot = true

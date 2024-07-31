@@ -12,7 +12,8 @@ func update(delta):
 
 func fire(angle, thrust):
 	var r = owner.ROCKET.instantiate()
-	r.position = owner.position #TODO Create gun and set to barrel point
+	owner.weapon.rotation = angle
+	r.position = owner.weapon.muzzle.global_position 
 	r.firingdata(angle,thrust)
 	owner.progress_bar.visible = true
 	#2 seconds is 100%

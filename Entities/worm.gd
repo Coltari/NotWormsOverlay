@@ -6,6 +6,7 @@ extends CharacterBody2D
 @onready var progress_bar = $ProgressBar
 @onready var health_bar = $healthBar
 @onready var state_machine = $StateMachine
+@onready var weapon = $Weapon
 
 const SPEED = 100.0
 const AIRSPEED = 80.0
@@ -27,8 +28,10 @@ func _ready():
 	var f = randi_range(0,1)
 	if f == 0: 
 		facing = facingDirection.LEFT
+		weapon.rotation_degrees = 90
 	else:
 		facing = facingDirection.RIGHT
+		weapon.rotation_degrees = 270
 
 func setName(Pname):
 	label.text = Pname
