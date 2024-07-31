@@ -1,11 +1,28 @@
 extends State
 
+func enter(values := {}):
+	owner.firing = true
+	var angle = values.get("angle")
+	var thrust = values.get("thrust")
+	fire(angle, thrust)
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+func update(delta):
+	if !owner.firing:
+		state_machine.transition_to("Idle")
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func fire(angle, thrust):
+	var r = owner.ROCKET.instantiate()
+	r.position = owner.position #TODO Create gun and set to barrel point
+	r.firingdata(angle,thrust)
+	owner.progress_bar.visible = true
+	#2 seconds is 100%
+	#1000 thrust is 100%
+	#get thrust %
+	var pc = (thrust/1000.0)
+	#apply % to max time
+	var t = 2*pc
+	await get_tree().create_timer(t).timeout
+	Events.add_rocket.emit(r)
+	owner.progress_bar.value = 0
+	owner.progress_bar.visible = false
+	owner.firing = false

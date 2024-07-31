@@ -1,11 +1,24 @@
 extends State
 
+func enter(values := {}):
+	var dir = values.get("direction")
+	var time = values.get("time")
+	
+	if dir > 0:
+		owner.facing = owner.facingDirection.RIGHT
+	else:
+		owner.facing = owner.facingDirection.LEFT
+	owner.direction = dir
+	owner.movement_timer.wait_time = time
+	owner.moving = true
+	owner.movement_timer.start()
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+func update(_delta):
+	if !owner.is_on_floor():
+		state_machine.transition_to("Falling")
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func physics_update(_delta):
+	if owner.moving:
+		owner.velocity.x = owner.direction * owner.SPEED
+	else:
+		state_machine.transition_to("Idle")

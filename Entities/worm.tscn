@@ -1,11 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://jtu8jcontc0k"]
+[gd_scene load_steps=15 format=3 uid="uid://jtu8jcontc0k"]
 
 [ext_resource type="Texture2D" uid="uid://lucty12i162g" path="res://icon.svg" id="1_hbpvs"]
 [ext_resource type="Script" path="res://Entities/worm.gd" id="1_woi0x"]
 [ext_resource type="Script" path="res://Engine/StateMachine.gd" id="3_gyknw"]
 [ext_resource type="Script" path="res://Entities/WormStates/Spawning.gd" id="4_hff2r"]
 [ext_resource type="Script" path="res://Entities/WormStates/Moving.gd" id="5_5eabt"]
-[ext_resource type="Script" path="res://Entities/WormStates/Jumping.gd" id="6_dy5f1"]
 [ext_resource type="Script" path="res://Entities/WormStates/Falling.gd" id="7_h3k66"]
 [ext_resource type="Script" path="res://Entities/WormStates/RagDoll.gd" id="8_e73tw"]
 [ext_resource type="Script" path="res://Entities/WormStates/Firing.gd" id="9_tb720"]
@@ -89,9 +88,6 @@ script = ExtResource("4_hff2r")
 
 [node name="Moving" type="Node" parent="StateMachine"]
 script = ExtResource("5_5eabt")
-
-[node name="Jumping" type="Node" parent="StateMachine"]
-script = ExtResource("6_dy5f1")
 
 [node name="Falling" type="Node" parent="StateMachine"]
 script = ExtResource("7_h3k66")

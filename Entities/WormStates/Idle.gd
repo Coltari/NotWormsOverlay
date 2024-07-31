@@ -1,11 +1,20 @@
 extends State
 
+func update(_delta):
+	if !owner.is_on_floor():
+		state_machine.transition_to("Falling")
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+func physics_update(_delta):
+	owner.velocity.x = move_toward(owner.velocity.x, 0, owner.SPEED)
 
+func canFire(angle,thrust):
+	var values : Dictionary = {"angle":angle,"thrust":thrust}
+	state_machine.transition_to("Firing", values)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func canMove(dir, time):
+	var values : Dictionary = {"direction":dir,"time":time}
+	state_machine.transition_to("Moving", values)
+
+func canJump():
+	if owner.is_on_floor():
+		owner.velocity.y = owner.JUMP_VELOCITY
