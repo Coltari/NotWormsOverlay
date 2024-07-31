@@ -42,7 +42,8 @@ func _process(_delta):
 		progress_bar.value += (50*_delta)
 
 func _physics_process(delta):
-	move_and_slide()
+	if state_machine.state != $StateMachine/RagDoll and state_machine.state != $StateMachine/Falling:
+		move_and_slide()
 
 func move(dir, time):
 	if state_machine.state.has_method("canMove"):
@@ -62,3 +63,13 @@ func _on_movement_timer_timeout():
 func takedamage(val):
 	health -= val
 	health_bar.value = health
+
+func knock_back(source,strength):
+	#get distance from source
+	var direction = source.direction_to(global_position)
+	var explosion_force = direction * strength
+	#take damage based on that
+	#move to ragdoll state
+	var values : Dictionary = {"force":explosion_force}
+	state_machine.transition_to("RagDoll",values)
+	#apply knockback force

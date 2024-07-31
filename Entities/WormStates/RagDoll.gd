@@ -1,11 +1,19 @@
 extends State
 
+var explosionforce : Vector2 = Vector2.ZERO
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+func enter(values := {}):
+	explosionforce = values.get("force")
 
+func physics_update(delta):
+	owner.velocity = explosionforce * owner.AIRSPEED
+	explosionforce = lerp(explosionforce, Vector2.ZERO, 0.01)
+	owner.velocity.y += owner.gravity * delta
+	var collision = owner.move_and_collide(owner.velocity * delta)
+	if collision:
+		owner.velocity = lerp(owner.velocity.bounce(collision.get_normal()), Vector2.ZERO, 0.1)
+		state_machine.transition_to("Falling",{"falltime":2.0})
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func update(_delta):
+	if explosionforce.x < 1 and explosionforce.x > -1 and explosionforce.y < 1 and explosionforce.y > -1:
+		state_machine.transition_to("Falling",{"falltime":2.0})

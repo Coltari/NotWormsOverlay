@@ -11,3 +11,6 @@ func _on_area_2d_body_entered(_body):
 	e.position = self.position
 	Events.add_explosion.emit(e)
 	queue_free()
+
+func _physics_process(_delta):
+	apply_central_force(Events.wind*100)

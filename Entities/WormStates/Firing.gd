@@ -2,6 +2,7 @@ extends State
 
 func enter(values := {}):
 	owner.firing = true
+	owner.weapon.visible = true
 	var angle = values.get("angle")
 	var thrust = values.get("thrust")
 	fire(angle, thrust)
@@ -27,3 +28,6 @@ func fire(angle, thrust):
 	owner.progress_bar.value = 0
 	owner.progress_bar.visible = false
 	owner.firing = false
+
+func exit() -> void:
+	owner.weapon.visible = false
