@@ -7,7 +7,7 @@ func enter(values := {}):
 
 func physics_update(delta):
 	owner.velocity = explosionforce * owner.AIRSPEED
-	explosionforce = lerp(explosionforce, Vector2.ZERO, 0.01)
+	explosionforce = lerp(explosionforce, Vector2.ZERO, 0.1)
 	owner.velocity.y += owner.gravity * delta
 	var collision = owner.move_and_collide(owner.velocity * delta)
 	if collision:

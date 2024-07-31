@@ -7,7 +7,7 @@ func enter(values := {}):
 	var thrust = values.get("thrust")
 	fire(angle, thrust)
 
-func update(delta):
+func update(_delta):
 	if !owner.firing:
 		state_machine.transition_to("Idle")
 

@@ -41,7 +41,7 @@ func _process(_delta):
 	if firing:
 		progress_bar.value += (50*_delta)
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if state_machine.state != $StateMachine/RagDoll and state_machine.state != $StateMachine/Falling:
 		move_and_slide()
 
@@ -66,8 +66,8 @@ func takedamage(val):
 
 func knock_back(source,strength):
 	#get distance from source
-	var direction = source.direction_to(global_position)
-	var explosion_force = direction * strength
+	var kbdirection = source.direction_to(global_position)
+	var explosion_force = kbdirection * strength
 	#take damage based on that
 	#move to ragdoll state
 	var values : Dictionary = {"force":explosion_force}

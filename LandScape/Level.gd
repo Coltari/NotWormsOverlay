@@ -1,4 +1,3 @@
-@tool
 extends Node2D
 
 @onready var players = $players
@@ -172,3 +171,11 @@ func aChangeInTheWind():
 
 func _on_wind_timer_timeout():
 	aChangeInTheWind()
+
+
+func _on_walldeath_body_entered(body):
+		#dish out points
+	label.text = body.PlayerName + " fell out of the world"
+	body.queue_free()
+	await get_tree().create_timer(2).timeout
+	label.text = ""
