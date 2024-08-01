@@ -4,11 +4,12 @@
 [ext_resource type="Script" path="res://addons/twitcher/twitch_irc_channel.gd" id="3_1y7y0"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_2nncq"]
-seed = 946565412
-fractal_octaves = 7
+seed = -28579082
+fractal_lacunarity = 1.0
+fractal_gain = 0.15
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_hdmjw"]
-seed = 1977217490
+seed = 1785700841
 frequency = 0.008
 fractal_octaves = 10
 fractal_lacunarity = 1.0
@@ -54,7 +55,6 @@ height = 30
 script = ExtResource("1_ydmjt")
 noise = SubResource("FastNoiseLite_2nncq")
 surfacenoise = SubResource("FastNoiseLite_hdmjw")
-WindTimer = null
 
 [node name="TwitchIrcChannel" type="Node" parent="."]
 script = ExtResource("3_1y7y0")
@@ -124,6 +124,25 @@ size_flags_horizontal = 4
 size_flags_vertical = 0
 horizontal_alignment = 1
 
+[node name="Label2" type="Label" parent="ui"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 23.0
+grow_horizontal = 0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 8
+text = "Spawn in: !join
+Move: !m <direction> <time>
+e.g. !m l 0.1 or !m r 2
+Jump: !j
+Fire: !f <angle> <power>
+e.g. !f 45 80"
+horizontal_alignment = 1
+
 [node name="deathzone" type="Area2D" parent="."]
 collision_mask = 2
 
@@ -148,6 +167,7 @@ shape = SubResource("WorldBoundaryShape2D_etwcg")
 debug_color = Color(0.832987, 0.00135382, 0.938776, 0.42)
 
 [node name="WindTimer" type="Timer" parent="."]
+wait_time = 30.0
 one_shot = true
 
 [connection signal="message_received" from="TwitchIrcChannel" to="." method="_on_twitch_irc_channel_message_received"]

@@ -90,7 +90,10 @@ func knock_back(source,strength):
 		var kbdirection = source.direction_to(global_position)
 		var explosion_force = kbdirection * strength
 		#take damage based on that
-		var damage = int((strength * 5) - global_position.distance_to(source))
+		var dist = global_position.distance_to(source)
+		if dist < 0:
+			dist *= -1
+		var damage = int((strength * 5) - dist)
 		takedamage(damage)
 		#move to ragdoll state
 		var values : Dictionary = {"force":explosion_force}

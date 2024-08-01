@@ -1,3 +1,4 @@
+@tool
 extends Node2D
 
 @onready var players = $players
@@ -16,6 +17,7 @@ const DIRT = preload("res://Entities/dirt.tscn")
 @export var WindTimer : float = 30.0
 
 var tcount : int = 0
+var windtarget : int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -36,7 +38,23 @@ func add_rocket(rocket):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	pass
+	if windtarget > 0:
+		if wind_bar_left.value > 0:
+			wind_bar_left.value -= 1
+		elif wind_bar_right.value > windtarget:
+			wind_bar_right.value -=1
+		elif wind_bar_right.value < windtarget:
+			wind_bar_right.value += 1
+	elif windtarget < 0:
+		if wind_bar_right.value > 0:
+			wind_bar_right.value -= 1
+		elif wind_bar_left.value > windtarget * -1:
+			wind_bar_left.value -=1
+		elif wind_bar_left.value < windtarget * -1:
+			wind_bar_left.value += 1
+	else:
+		wind_bar_left.value = 0
+		wind_bar_right.value = 0
 
 func _on_twitch_irc_channel_message_received(from_user, message, _tags):
 	var player
@@ -158,15 +176,11 @@ func _on_button_2_pressed():
 func aChangeInTheWind():
 	wind_timer.wait_time = WindTimer
 	Events.wind = Vector2(randf_range(-1,1),0)
-	if Events.wind.x > 0:
-		wind_bar_right.value = Events.wind.x * 100
-		wind_bar_left.value = 0
-	elif Events.wind.x < 0:
-		wind_bar_left.value = Events.wind.x * -100
-		wind_bar_right.value = 0
+	var a = Events.wind.x
+	if a != 0:
+		windtarget = int(a * 100)
 	else:
-		wind_bar_left.value = 0
-		wind_bar_right.value = 0
+		windtarget = 0
 	wind_timer.start()
 
 func _on_wind_timer_timeout():
