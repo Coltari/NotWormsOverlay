@@ -8,6 +8,7 @@ extends Node2D
 @onready var wind_bar_right = $ui/WindBarRight
 @onready var wind_bar_left = $ui/WindBarLeft
 @onready var wind_timer = $WindTimer
+@onready var water = $water
 
 const WORM = preload("res://Entities/worm.tscn")
 const DIRT = preload("res://Entities/dirt.tscn")
@@ -18,6 +19,7 @@ const DIRT = preload("res://Entities/dirt.tscn")
 
 var tcount : int = 0
 var windtarget : int = 0
+@onready var time : float = 0.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -36,8 +38,20 @@ func add_explosion(explosion):
 func add_rocket(rocket):
 	projectiles.add_child(rocket)
 
+func get_sin(a):
+	return sin((time*a)*1)*0.5
+
+func get_cos(a):
+	return cos((time*a)*1)*0.5
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	time += _delta
+	var i : int = 1
+	for c in water.get_children():
+		c.position.y += get_sin(i)
+		c.position.x += get_cos(i)
+		i += 1
 	if windtarget > 0:
 		if wind_bar_left.value > 0:
 			wind_bar_left.value -= 1
@@ -122,10 +136,10 @@ func generate_level():
 	surfacenoise.seed = randi()
 	
 	for x in 1160:
-		if x % 8 != 0:
+		if x % 2 != 0:
 			continue
 		for y in 248:
-			if y % 8 != 0:
+			if y % 2 != 0:
 				continue
 			var n = noise.get_noise_2d(x,y)
 			#get this value at x.
@@ -137,7 +151,7 @@ func generate_level():
 			#if y is under scale, place.
 				if n > -0.1:
 					var d = DIRT.instantiate()
-					d.position = Vector2(x-8,y+400)
+					d.position = Vector2(x-2,y+400)
 					ground.add_child(d)
 
 

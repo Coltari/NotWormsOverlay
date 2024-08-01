@@ -8,6 +8,7 @@ extends CharacterBody2D
 @onready var state_machine = $StateMachine
 @onready var weapon = $Weapon
 @onready var damagelabels = $damagelabels
+@onready var sprite = $AnimatedSprite2D
 
 const SPEED = 100.0
 const AIRSPEED = 80.0
@@ -35,11 +36,18 @@ func _ready():
 		facing = facingDirection.RIGHT
 		weapon.rotation_degrees = 270
 
+func checksprite():
+	if facing == facingDirection.LEFT:
+		sprite.flip_h = false
+	else:
+		sprite.flip_h = true
+
 func setName(Pname):
 	label.text = Pname
 	PlayerName = Pname
 
 func _process(_delta):
+	checksprite()
 	if firing:
 		progress_bar.value += (50*_delta)
 	for c in damagelabels.get_children():
