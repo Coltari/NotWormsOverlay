@@ -136,10 +136,10 @@ func generate_level():
 	surfacenoise.seed = randi()
 	
 	for x in 1160:
-		if x % 2 != 0:
+		if x % 4 != 0:
 			continue
 		for y in 248:
-			if y % 2 != 0:
+			if y % 4 != 0:
 				continue
 			var n = noise.get_noise_2d(x,y)
 			#get this value at x.
@@ -151,7 +151,7 @@ func generate_level():
 			#if y is under scale, place.
 				if n > -0.1:
 					var d = DIRT.instantiate()
-					d.position = Vector2(x-2,y+400)
+					d.position = Vector2(x-4,y+400)
 					ground.add_child(d)
 
 
