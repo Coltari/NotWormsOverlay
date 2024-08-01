@@ -13,14 +13,10 @@ func update(delta):
 	if owner.is_on_floor():
 		state_machine.transition_to("Idle")
 	#add how long we've been falling
-	#if it's too long we bounce about and take fall damage
+	#if it's too long go ragdoll
 	fallstart += delta
 	if fallstart > 2:
-		var collision = owner.move_and_collide(owner.velocity * delta)
-		if collision:
-			owner.velocity = lerp(owner.velocity.bounce(collision.get_normal()), Vector2.ZERO, 0.1)
-	else:
-		owner.move_and_slide()
+		state_machine.transition_to("RagDoll")
 
 func physics_update(delta):
 	if owner.facing == owner.facingDirection.RIGHT:

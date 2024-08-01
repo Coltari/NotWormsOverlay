@@ -7,12 +7,14 @@ extends CharacterBody2D
 @onready var health_bar = $healthBar
 @onready var state_machine = $StateMachine
 @onready var weapon = $Weapon
+@onready var damagelabels = $damagelabels
 
 const SPEED = 100.0
 const AIRSPEED = 80.0
 const JUMP_VELOCITY = -300.0
 const ROCKET = preload("res://Entities/rocket.tscn")
 var health : int = 100
+var iframes : bool = false
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -40,9 +42,17 @@ func setName(Pname):
 func _process(_delta):
 	if firing:
 		progress_bar.value += (50*_delta)
+	for c in damagelabels.get_children():
+		var color : Color = c.get("theme_override_colors/font_color")
+		if color.a > 0.0:
+			c.position.y -= 1
+			var nc : Color = Color(color.r, color.g, color.b, color.a-0.01)
+			c.set("theme_override_colors/font_color",nc)
+		else:
+			c.queue_free()
 
 func _physics_process(_delta):
-	if state_machine.state != $StateMachine/RagDoll and state_machine.state != $StateMachine/Falling:
+	if state_machine.state != $StateMachine/RagDoll:
 		move_and_slide()
 
 func move(dir, time):
@@ -61,15 +71,30 @@ func _on_movement_timer_timeout():
 	moving = false
 
 func takedamage(val):
+	if val < 0:
+		val = val*-1
 	health -= val
 	health_bar.value = health
+	var a = Label.new()
+	a.position = self.position
+	a.text = str(val)
+	a.size.x = 150
+	a.size.y = 50
+	a.set("theme_override_colors/font_color",Color(1,1,1,1))
+	damagelabels.add_child(a)
 
 func knock_back(source,strength):
-	#get distance from source
-	var kbdirection = source.direction_to(global_position)
-	var explosion_force = kbdirection * strength
-	#take damage based on that
-	#move to ragdoll state
-	var values : Dictionary = {"force":explosion_force}
-	state_machine.transition_to("RagDoll",values)
-	#apply knockback force
+	if !iframes:
+		iframes = true
+		#get distance from source
+		var kbdirection = source.direction_to(global_position)
+		var explosion_force = kbdirection * strength
+		#take damage based on that
+		var damage = int((strength * 5) - global_position.distance_to(source))
+		takedamage(damage)
+		#move to ragdoll state
+		var values : Dictionary = {"force":explosion_force}
+		state_machine.transition_to("RagDoll",values)
+		#apply knockback force
+		await get_tree().create_timer(0.5).timeout
+		iframes = false
