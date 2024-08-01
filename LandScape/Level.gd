@@ -1,15 +1,19 @@
-@tool
 extends Node2D
 
 @onready var players = $players
 @onready var ground = $ground
 @onready var projectiles = $projectiles
 @onready var label = $ui/Label
+@onready var wind_bar_right = $ui/WindBarRight
+@onready var wind_bar_left = $ui/WindBarLeft
+@onready var wind_timer = $WindTimer
 
 const WORM = preload("res://Entities/worm.tscn")
 const DIRT = preload("res://Entities/dirt.tscn")
+
 @export var noise : FastNoiseLite
 @export var surfacenoise : FastNoiseLite
+@export var WindTimer : float = 30.0
 
 var tcount : int = 0
 
@@ -19,6 +23,7 @@ func _ready():
 	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_TRANSPARENT, true, 0)
 	TwitchService.setup();
 	generate_level()
+	aChangeInTheWind()
 	Events.add_rocket.connect(add_rocket)
 	Events.add_explosion.connect(add_explosion)
 
@@ -149,3 +154,28 @@ func _on_button_2_pressed():
 	for n in ground.get_children():
 		n.queue_free()
 	generate_level()
+
+func aChangeInTheWind():
+	wind_timer.wait_time = WindTimer
+	Events.wind = Vector2(randf_range(-1,1),0)
+	if Events.wind.x > 0:
+		wind_bar_right.value = Events.wind.x * 100
+		wind_bar_left.value = 0
+	elif Events.wind.x < 0:
+		wind_bar_left.value = Events.wind.x * -100
+		wind_bar_right.value = 0
+	else:
+		wind_bar_left.value = 0
+		wind_bar_right.value = 0
+	wind_timer.start()
+
+func _on_wind_timer_timeout():
+	aChangeInTheWind()
+
+
+func _on_walldeath_body_entered(body):
+		#dish out points
+	label.text = body.PlayerName + " fell out of the world"
+	body.queue_free()
+	await get_tree().create_timer(2).timeout
+	label.text = ""

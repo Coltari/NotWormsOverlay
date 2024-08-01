@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cabr002sdouvf"]
+[gd_scene load_steps=16 format=3 uid="uid://cabr002sdouvf"]
 
 [ext_resource type="Script" path="res://LandScape/Level.gd" id="1_ydmjt"]
 [ext_resource type="Script" path="res://addons/twitcher/twitch_irc_channel.gd" id="3_1y7y0"]
@@ -14,12 +14,47 @@ fractal_octaves = 10
 fractal_lacunarity = 1.0
 fractal_gain = 0.75
 
+[sub_resource type="Gradient" id="Gradient_im2qv"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_amhhf"]
+gradient = SubResource("Gradient_im2qv")
+width = 100
+height = 30
+
+[sub_resource type="Gradient" id="Gradient_2iqsk"]
+offsets = PackedFloat32Array(0, 0.00938967)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_x1d8p"]
+gradient = SubResource("Gradient_2iqsk")
+width = 100
+height = 30
+
+[sub_resource type="Gradient" id="Gradient_wf2k0"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_b4ji6"]
+gradient = SubResource("Gradient_wf2k0")
+width = 100
+height = 30
+
+[sub_resource type="Gradient" id="Gradient_04b2p"]
+offsets = PackedFloat32Array(0, 0.0140845)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_u3b1t"]
+gradient = SubResource("Gradient_04b2p")
+width = 100
+height = 30
+
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_8xn6w"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ym3dx"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_etwcg"]
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_ydmjt")
 noise = SubResource("FastNoiseLite_2nncq")
 surfacenoise = SubResource("FastNoiseLite_hdmjw")
+WindTimer = null
 
 [node name="TwitchIrcChannel" type="Node" parent="."]
 script = ExtResource("3_1y7y0")
@@ -48,14 +83,44 @@ layout_mode = 2
 text = "refresh landmass
 "
 
+[node name="WindBarRight" type="TextureProgressBar" parent="ui"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_right = 100.0
+offset_bottom = 40.0
+grow_horizontal = 2
+rounded = true
+texture_under = SubResource("GradientTexture2D_amhhf")
+texture_progress = SubResource("GradientTexture2D_x1d8p")
+tint_under = Color(0.190762, 0.190762, 0.190762, 1)
+tint_progress = Color(0.654401, 0.00375343, 0.970806, 1)
+
+[node name="WindBarLeft" type="TextureProgressBar" parent="ui"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_top = 30.0
+offset_right = 100.0
+offset_bottom = 70.0
+grow_horizontal = 2
+rotation = 3.14159
+rounded = true
+texture_under = SubResource("GradientTexture2D_b4ji6")
+texture_progress = SubResource("GradientTexture2D_u3b1t")
+tint_under = Color(0.192157, 0.192157, 0.192157, 1)
+tint_progress = Color(0.624656, 0.00360307, 0.943339, 1)
+
 [node name="Label" type="Label" parent="ui"]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -125.0
+offset_top = 40.0
 offset_right = 125.0
-offset_bottom = 25.0
+offset_bottom = 65.0
 grow_horizontal = 2
+size_flags_horizontal = 4
 size_flags_vertical = 0
 horizontal_alignment = 1
 
@@ -63,11 +128,31 @@ horizontal_alignment = 1
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="deathzone"]
-position = Vector2(538, 656)
+position = Vector2(576, 656)
 shape = SubResource("WorldBoundaryShape2D_8xn6w")
 debug_color = Color(0.84868, 0.00091949, 0.903118, 0.42)
+
+[node name="walldeath" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="walldeath"]
+position = Vector2(-15, 319)
+rotation = 1.5708
+shape = SubResource("WorldBoundaryShape2D_ym3dx")
+debug_color = Color(0.795817, 0.177411, 0.932376, 0.42)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="walldeath"]
+position = Vector2(1165, 335)
+rotation = -1.5708
+shape = SubResource("WorldBoundaryShape2D_etwcg")
+debug_color = Color(0.832987, 0.00135382, 0.938776, 0.42)
+
+[node name="WindTimer" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="message_received" from="TwitchIrcChannel" to="." method="_on_twitch_irc_channel_message_received"]
 [connection signal="pressed" from="ui/VBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="ui/VBoxContainer/Button2" to="." method="_on_button_2_pressed"]
 [connection signal="body_entered" from="deathzone" to="." method="_on_deathzone_body_entered"]
+[connection signal="body_entered" from="walldeath" to="." method="_on_walldeath_body_entered"]
+[connection signal="timeout" from="WindTimer" to="." method="_on_wind_timer_timeout"]

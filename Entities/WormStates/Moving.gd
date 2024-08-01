@@ -6,8 +6,10 @@ func enter(values := {}):
 	
 	if dir > 0:
 		owner.facing = owner.facingDirection.RIGHT
+		owner.weapon.rotation_degrees = 270
 	else:
 		owner.facing = owner.facingDirection.LEFT
+		owner.weapon.rotation_degrees = 90
 	owner.direction = dir
 	owner.movement_timer.wait_time = time
 	owner.moving = true

@@ -1,11 +1,29 @@
 extends State
 
+var explosionforce : Vector2 = Vector2.ZERO
+var falltime : float
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+func enter(values := {}):
+	var val = values.get("force")
+	if val != null:
+		explosionforce = val
+		owner.velocity = explosionforce * owner.AIRSPEED
 
+func physics_update(delta):
+	#apply gravity
+	owner.velocity.y += owner.gravity * delta
+	#lerp velocity to 0
+	owner.velocity.x = move_toward(owner.velocity.x, 0, 0.5)
+	#check collisions for bounce
+	var collision = owner.move_and_collide(owner.velocity * delta)
+	if collision:
+		owner.velocity = lerp(owner.velocity.bounce(collision.get_normal()), Vector2.ZERO, 0.5)
+		if falltime >= 0.5:
+			owner.takedamage(int(falltime*2))
+		falltime = 0.0
+	#if on floor still - exit ragdoll state to idle.
+	if owner.velocity.x == 0 and (owner.velocity.y > -6 and owner.velocity.y < -4):
+		state_machine.transition_to("Idle")
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func update(delta):
+	falltime += delta
