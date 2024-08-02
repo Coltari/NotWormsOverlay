@@ -9,6 +9,8 @@ extends Node2D
 @onready var wind_bar_left = $ui/WindBarLeft
 @onready var wind_timer = $WindTimer
 @onready var water = $water
+@onready var notif_timer = $NotifTimer
+@onready var notifback = $ui/notifback
 
 const WORM = preload("res://Entities/worm.tscn")
 const DIRT = preload("res://Entities/dirt.tscn")
@@ -22,6 +24,8 @@ var windtarget : int = 0
 @onready var time : float = 0.0
 @onready var blockcount : float = 0.0
 var levelready : bool = false
+
+var notifications = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -66,6 +70,7 @@ func get_cos(a):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	regenerateDeadLand()
+	checkForNotifications()
 	time += _delta
 	var i : int = 1
 	for c in water.get_children():
@@ -192,9 +197,7 @@ func regenerateDeadLand():
 		
 		if ((currentblockcount / blockcount) * 100) < 40:
 			levelready = false
-			label.text = "Rebuilding Level"
-			await get_tree().create_timer(5).timeout
-			label.text = ""
+			notifications.append("Rebuilding Level")
 			
 			#less than 40% regenerate
 			var currentplayers = []
@@ -241,10 +244,8 @@ func spawn_worm(user):
 
 func _on_deathzone_body_entered(body):
 	#dish out points
-	label.text = body.PlayerName + " is swimming with the fishies"
+	notifications.append(body.PlayerName + " is swimming with the fishies")
 	body.queue_free()
-	await get_tree().create_timer(2).timeout
-	label.text = ""
 
 
 func _on_button_pressed():
@@ -275,7 +276,17 @@ func _on_wind_timer_timeout():
 
 func _on_walldeath_body_entered(body):
 		#dish out points
-	label.text = body.PlayerName + " fell out of the world"
+	notifications.append(body.PlayerName + " fell out of the world")
 	body.queue_free()
-	await get_tree().create_timer(2).timeout
+
+func _on_notif_timer_timeout():
 	label.text = ""
+	notifback.visible = false
+
+func checkForNotifications():
+	if notif_timer.time_left > 0:
+		return
+	if notifications.size() > 0:
+		label.text = notifications.pop_front()
+		notifback.visible = true
+		notif_timer.start()

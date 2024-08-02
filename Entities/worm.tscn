@@ -4,7 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://nisdaftmr3sa" path="res://assets/images/basicWorm.png" id="2_dv2to"]
 [ext_resource type="Script" path="res://Engine/StateMachine.gd" id="3_gyknw"]
 [ext_resource type="Script" path="res://Entities/WormStates/Spawning.gd" id="4_hff2r"]
+[ext_resource type="Texture2D" uid="uid://bn18nkyv33s5a" path="res://assets/images/9patch.png" id="4_r2foh"]
 [ext_resource type="Script" path="res://Entities/WormStates/Moving.gd" id="5_5eabt"]
+[ext_resource type="Texture2D" uid="uid://dqa3olv6kqln1" path="res://assets/images/health9patch.png" id="5_cg20b"]
 [ext_resource type="Script" path="res://Entities/WormStates/Falling.gd" id="7_h3k66"]
 [ext_resource type="Script" path="res://Entities/WormStates/RagDoll.gd" id="8_e73tw"]
 [ext_resource type="Script" path="res://Entities/WormStates/Firing.gd" id="9_tb720"]
@@ -26,14 +28,6 @@ animations = [{
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_y870d"]
 radius = 4.0
 height = 18.0
-
-[sub_resource type="Gradient" id="Gradient_l14fx"]
-offsets = PackedFloat32Array(0, 0.530516)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_psr6p"]
-gradient = SubResource("Gradient_l14fx")
-width = 50
-height = 10
 
 [node name="Worm" type="CharacterBody2D"]
 collision_layer = 2
@@ -59,6 +53,10 @@ offset_right = 75.0
 offset_bottom = -40.0
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 8
 text = "text"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -70,9 +68,13 @@ offset_right = 25.0
 offset_bottom = -30.0
 value = 100.0
 rounded = true
-texture_progress = SubResource("GradientTexture2D_psr6p")
-tint_under = Color(0.243569, 0.243569, 0.243569, 1)
-tint_progress = Color(0.900564, 0, 0.01649, 1)
+nine_patch_stretch = true
+stretch_margin_left = 1
+stretch_margin_top = 1
+stretch_margin_right = 1
+stretch_margin_bottom = 1
+texture_under = ExtResource("4_r2foh")
+texture_progress = ExtResource("5_cg20b")
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("3_gyknw")
