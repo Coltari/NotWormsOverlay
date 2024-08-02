@@ -11,6 +11,7 @@ extends Node2D
 @onready var water = $water
 @onready var notif_timer = $NotifTimer
 @onready var notifback = $ui/notifback
+#@onready var twitch_irc_channel = $TwitchIrcChannel
 
 const WORM = preload("res://Entities/worm.tscn")
 const DIRT = preload("res://Entities/dirt.tscn")
@@ -26,9 +27,15 @@ var windtarget : int = 0
 var levelready : bool = false
 
 var notifications = []
+var twitch_irc_channel : TwitchIrcChannel
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	twitch_irc_channel = TwitchIrcChannel.new()
+	twitch_irc_channel.channel_name = Events.channelName
+	twitch_irc_channel.message_received.connect(_on_twitch_irc_channel_message_received)
+	add_child(twitch_irc_channel)
+	#setDetails()
 	setWaterLevel()
 	get_viewport().transparent_bg = true
 	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_TRANSPARENT, true, 0)
@@ -37,6 +44,10 @@ func _ready():
 	aChangeInTheWind()
 	Events.add_rocket.connect(add_rocket)
 	Events.add_explosion.connect(add_explosion)
+
+func setDetails():
+	twitch_irc_channel.channel_name = Events.channelName
+	twitch_irc_channel.is_joined()
 
 func setWaterLevel():
 	for c in water.get_children():

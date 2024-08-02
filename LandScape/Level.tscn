@@ -1,7 +1,6 @@
-[gd_scene load_steps=17 format=3 uid="uid://cabr002sdouvf"]
+[gd_scene load_steps=16 format=3 uid="uid://cabr002sdouvf"]
 
 [ext_resource type="Script" path="res://LandScape/Level.gd" id="1_ydmjt"]
-[ext_resource type="Script" path="res://addons/twitcher/twitch_irc_channel.gd" id="3_1y7y0"]
 [ext_resource type="Texture2D" uid="uid://crr2d6qa7d6ik" path="res://assets/images/wave.png" id="3_t88ic"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_2nncq"]
@@ -58,20 +57,16 @@ script = ExtResource("1_ydmjt")
 noise = SubResource("FastNoiseLite_2nncq")
 surfacenoise = SubResource("FastNoiseLite_hdmjw")
 
-[node name="TwitchIrcChannel" type="Node" parent="."]
-script = ExtResource("3_1y7y0")
-channel_name = "Coltari"
-
 [node name="water" type="Node" parent="."]
 
 [node name="back1" type="Sprite2D" parent="water"]
-position = Vector2(533.777, 700.735)
+position = Vector2(391.803, 672.069)
 scale = Vector2(1.25, 0.15)
 texture = ExtResource("3_t88ic")
 flip_v = true
 
 [node name="back2" type="Sprite2D" parent="water"]
-position = Vector2(521.719, 639.641)
+position = Vector2(523.939, 580.496)
 scale = Vector2(1.25, 0.15)
 texture = ExtResource("3_t88ic")
 flip_h = true
@@ -79,14 +74,14 @@ flip_v = true
 
 [node name="front1" type="Sprite2D" parent="water"]
 z_index = 1
-position = Vector2(578.284, 602.115)
+position = Vector2(621.334, 667.357)
 scale = Vector2(1.25, 0.15)
 texture = ExtResource("3_t88ic")
 flip_v = true
 
 [node name="front2" type="Sprite2D" parent="water"]
 z_index = 1
-position = Vector2(574.546, 618.789)
+position = Vector2(601.805, 673.823)
 scale = Vector2(1.25, 0.15)
 texture = ExtResource("3_t88ic")
 flip_h = true
@@ -227,7 +222,6 @@ one_shot = true
 wait_time = 2.0
 one_shot = true
 
-[connection signal="message_received" from="TwitchIrcChannel" to="." method="_on_twitch_irc_channel_message_received"]
 [connection signal="pressed" from="ui/VBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="ui/VBoxContainer/Button2" to="." method="_on_button_2_pressed"]
 [connection signal="body_entered" from="deathzone" to="." method="_on_deathzone_body_entered"]
