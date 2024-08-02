@@ -16,4 +16,4 @@ func _on_area_2d_body_entered(body):
 		body.queue_free()
 	else:
 		if body.has_method("knock_back"):
-			body.knock_back(self.global_position, strength)
+			body.knock_back(self.global_position, strength,true)

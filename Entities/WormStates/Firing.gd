@@ -16,7 +16,6 @@ func fire(angle, thrust):
 	owner.weapon.rotation = angle
 	r.position = owner.weapon.muzzle.global_position 
 	r.firingdata(angle,thrust)
-	owner.progress_bar.visible = true
 	#2 seconds is 100%
 	#1000 thrust is 100%
 	#get thrust %
@@ -25,8 +24,7 @@ func fire(angle, thrust):
 	var t = 2*pc
 	await get_tree().create_timer(t).timeout
 	Events.add_rocket.emit(r)
-	owner.progress_bar.value = 0
-	owner.progress_bar.visible = false
+	owner.weapon.set_progress(0)
 	owner.firing = false
 
 func exit() -> void:
