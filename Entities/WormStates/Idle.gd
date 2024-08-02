@@ -1,5 +1,8 @@
 extends State
 
+func enter(_msg := {}):
+	owner.takedamage()
+
 func update(_delta):
 	if !owner.is_on_floor():
 		state_machine.transition_to("Falling")
