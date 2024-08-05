@@ -1,6 +1,7 @@
-[gd_scene load_steps=16 format=3 uid="uid://cabr002sdouvf"]
+[gd_scene load_steps=17 format=3 uid="uid://cabr002sdouvf"]
 
 [ext_resource type="Script" path="res://LandScape/Level.gd" id="1_ydmjt"]
+[ext_resource type="PackedScene" uid="uid://bbeqyii41yy25" path="res://Entities/dirt.tscn" id="3_m744f"]
 [ext_resource type="Texture2D" uid="uid://crr2d6qa7d6ik" path="res://assets/images/wave.png" id="3_t88ic"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_2nncq"]
@@ -60,13 +61,13 @@ surfacenoise = SubResource("FastNoiseLite_hdmjw")
 [node name="water" type="Node" parent="."]
 
 [node name="back1" type="Sprite2D" parent="water"]
-position = Vector2(391.803, 672.069)
+position = Vector2(133.791, 1065.88)
 scale = Vector2(1.25, 0.15)
 texture = ExtResource("3_t88ic")
 flip_v = true
 
 [node name="back2" type="Sprite2D" parent="water"]
-position = Vector2(523.939, 580.496)
+position = Vector2(467.512, 806.826)
 scale = Vector2(1.25, 0.15)
 texture = ExtResource("3_t88ic")
 flip_h = true
@@ -74,20 +75,22 @@ flip_v = true
 
 [node name="front1" type="Sprite2D" parent="water"]
 z_index = 1
-position = Vector2(621.334, 667.357)
+position = Vector2(575.102, 895.365)
 scale = Vector2(1.25, 0.15)
 texture = ExtResource("3_t88ic")
 flip_v = true
 
 [node name="front2" type="Sprite2D" parent="water"]
 z_index = 1
-position = Vector2(601.805, 673.823)
+position = Vector2(436.987, 744.367)
 scale = Vector2(1.25, 0.15)
 texture = ExtResource("3_t88ic")
 flip_h = true
 flip_v = true
 
 [node name="ground" type="Node" parent="."]
+
+[node name="TileMap" parent="ground" instance=ExtResource("3_m744f")]
 
 [node name="players" type="Node" parent="."]
 
@@ -96,8 +99,8 @@ flip_v = true
 [node name="ui" type="CanvasLayer" parent="."]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ui"]
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 143.0
+offset_bottom = 66.0
 
 [node name="Button" type="Button" parent="ui/VBoxContainer"]
 layout_mode = 2

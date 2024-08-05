@@ -11,10 +11,11 @@ extends Node2D
 @onready var water = $water
 @onready var notif_timer = $NotifTimer
 @onready var notifback = $ui/notifback
+@onready var tile_map = $ground/TileMap
+
 #@onready var twitch_irc_channel = $TwitchIrcChannel
 
 const WORM = preload("res://Entities/worm.tscn")
-const DIRT = preload("res://Entities/dirt.tscn")
 
 @export var noise : FastNoiseLite
 @export var surfacenoise : FastNoiseLite
@@ -191,17 +192,15 @@ func generate_level():
 			if yperc < 45:
 			#if y is under scale, place.
 				if n > -0.1:
-					var d = DIRT.instantiate()
-					d.position = Vector2(x-4,y+400)
-					ground.add_child(d)
-					blockcount += 1
+					tile_map.place_at_pos(Vector2i(x,y+400))
+	tile_map.update_all_tiles()
+	blockcount = tile_map.count_tiles()
 	levelready = true
 
 func regenerateDeadLand():
 	if levelready:
 		var currentblockcount : float = 0.0
-		for c in ground.get_children():
-			currentblockcount += 1
+		currentblockcount = tile_map.count_tiles()
 		
 		if blockcount == 0:
 			return
@@ -218,8 +217,7 @@ func regenerateDeadLand():
 			for n in players.get_children():
 				n.queue_free()
 				
-			for n in ground.get_children():
-				n.queue_free()
+			tile_map.remove_all_tiles()
 			
 			generate_level()
 			
@@ -241,11 +239,10 @@ func spawn_worm(user):
 	#check we still have land beneath this spot.
 	var canspawn = false
 	while !canspawn:
-		for g in ground.get_children():
-			if g.position.y < 640:
-				if g.position.x <= x and g.position.x+4 > x:
-					canspawn = true
-					break
+		for y in range(350,1000):
+			if tile_map.is_tile_here(Vector2(x,y)):
+				canspawn = true
+				break
 		#if we reach this point - none of the ground cubes are under this spot so pick another
 		x = randi_range(10,1150)
 	n.position.y = 100
@@ -267,8 +264,7 @@ func _on_button_pressed():
 func _on_button_2_pressed():
 	for n in players.get_children():
 		n.queue_free()
-	for n in ground.get_children():
-		n.queue_free()
+	tile_map.remove_all_tiles()
 	generate_level()
 
 func aChangeInTheWind():
