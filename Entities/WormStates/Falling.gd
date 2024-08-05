@@ -3,6 +3,8 @@ extends State
 var fallstart : float = 0.0
 
 func enter(_msg := {}):
+	owner.sprite.play("default")
+	owner.sprite.stop()
 	var val = _msg.get("falltime")
 	if val == null:
 		fallstart = 0.0

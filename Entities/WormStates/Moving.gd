@@ -14,6 +14,7 @@ func enter(values := {}):
 	owner.movement_timer.wait_time = time
 	owner.moving = true
 	owner.movement_timer.start()
+	owner.sprite.play("default")
 
 func update(_delta):
 	if !owner.is_on_floor():

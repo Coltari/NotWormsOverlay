@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://jtu8jcontc0k"]
+[gd_scene load_steps=22 format=3 uid="uid://jtu8jcontc0k"]
 
 [ext_resource type="Script" path="res://Entities/worm.gd" id="1_woi0x"]
 [ext_resource type="Texture2D" uid="uid://nisdaftmr3sa" path="res://assets/images/basicWorm.png" id="2_dv2to"]
@@ -14,14 +14,58 @@
 [ext_resource type="Script" path="res://Entities/WormStates/Idle.gd" id="11_gi4dd"]
 [ext_resource type="PackedScene" uid="uid://b2kq5ewkrj47a" path="res://Entities/weapon.tscn" id="11_qmdrf"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_row15"]
+atlas = ExtResource("2_dv2to")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t62hl"]
+atlas = ExtResource("2_dv2to")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5dvbm"]
+atlas = ExtResource("2_dv2to")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cop6m"]
+atlas = ExtResource("2_dv2to")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xys51"]
+atlas = ExtResource("2_dv2to")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_we451"]
+atlas = ExtResource("2_dv2to")
+region = Rect2(80, 0, 16, 16)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_y7vx3"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_dv2to")
+"texture": SubResource("AtlasTexture_row15")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t62hl")
 }],
 "loop": true,
 "name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5dvbm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cop6m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xys51")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_we451")
+}],
+"loop": true,
+"name": &"falling",
 "speed": 5.0
 }]
 

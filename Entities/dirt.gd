@@ -51,14 +51,11 @@ func update_tile_at(pos:Vector2i):
 	else:
 		set_cell(0,Vector2i(pos.x,pos.y),0,Vector2i(0,0),0)
 
-func remove_tile_at(pos:Vector2):
-	erase_cell(0,Vector2i(pos.x/4,(pos.y/4)+20))
-
 func explode_tile_at(global_pos,radius):
-	var xstart : int = global_pos.x-radius
-	var ystart : int = global_pos.y-radius
-	var xend : int = global_pos.x+radius
-	var yend : int = global_pos.y+radius
+	var xstart : int = int(global_pos.x)-radius
+	var ystart : int = int(global_pos.y)-radius
+	var xend : int = int(global_pos.x)+radius
+	var yend : int = int(global_pos.y)+radius
 	
 	for x in range(xstart,xend):
 		for y in range(ystart,yend):

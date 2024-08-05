@@ -13,7 +13,7 @@ func _ready():
 	var x = load_cached()
 	if x == 1:
 		#saved details go straight to boot
-		get_tree().change_scene_to_packed(LEVEL)
+		get_tree().call_deferred("change_scene_to_packed",LEVEL)
 	elif x == 0:
 		#need to prompt for info
 		pass

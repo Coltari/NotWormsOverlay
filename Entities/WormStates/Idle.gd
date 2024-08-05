@@ -2,6 +2,8 @@ extends State
 
 func enter(_msg := {}):
 	owner.takedamage()
+	owner.sprite.play("default")
+	owner.sprite.stop()
 
 func update(_delta):
 	if !owner.is_on_floor():
