@@ -8,6 +8,7 @@ func enter(values := {}):
 	if val != null:
 		explosionforce = val
 		owner.velocity = explosionforce * owner.AIRSPEED
+		owner.sprite.play("falling")
 
 func physics_update(delta):
 	#apply gravity

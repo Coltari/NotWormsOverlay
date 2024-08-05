@@ -11,8 +11,9 @@ config_version=5
 [application]
 
 config/name="NotWormsOverlay"
-run/main_scene="res://LandScape/Level.tscn"
+run/main_scene="res://BootUp.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
+boot_splash/image="res://assets/images/splash.png"
 config/icon="res://icon.svg"
 
 [autoload]
@@ -37,8 +38,8 @@ environment/defaults/default_clear_color=Color(0.301961, 0.301961, 0.301961, 0)
 
 [twitch]
 
-auth/client_id="ojr32elct1ab8cfc0j2zwt8upp497n"
-auth/client_secret="j99mv3okbvs20idmaqcvfjnbcdoxky"
 auth/scopes/chat=1
 auth/scopes/bits=1
 websocket/irc/username="Worms"
+auth/client_id="ojr32elct1ab8cfc0j2zwt8upp497n"
+auth/client_secret="bmxzv87x5b5j6awul7t28anrvt0c8a"

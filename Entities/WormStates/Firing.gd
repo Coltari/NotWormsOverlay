@@ -3,6 +3,8 @@ extends State
 func enter(values := {}):
 	owner.firing = true
 	owner.weapon.visible = true
+	owner.sprite.play("default")
+	owner.sprite.stop()
 	var angle = values.get("angle")
 	var thrust = values.get("thrust")
 	fire(angle, thrust)

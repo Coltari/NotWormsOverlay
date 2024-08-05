@@ -21,12 +21,13 @@ radius = 56.0089
 particle_flag_disable_z = true
 angle_max = 378.9
 direction = Vector3(0, 0, 0)
-spread = 20.0
-initial_velocity_min = 90.23
-initial_velocity_max = 503.76
+spread = 30.0
+initial_velocity_min = 250.0
+initial_velocity_max = 800.0
 gravity = Vector3(0, 98, 0)
 
 [node name="Explode" type="AnimatedSprite2D"]
+self_modulate = Color(0.719717, 0.330231, 0.231653, 1)
 sprite_frames = SubResource("SpriteFrames_yvup3")
 script = ExtResource("2_nr80m")
 
@@ -38,12 +39,12 @@ shape = SubResource("CircleShape2D_obhxw")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 emitting = false
-amount = 40
+amount = 80
 process_material = SubResource("ParticleProcessMaterial_a45w2")
-lifetime = 0.5
+lifetime = 0.45
 one_shot = true
-speed_scale = 4.03
-explosiveness = 1.0
+speed_scale = 2.0
+explosiveness = 0.75
 interp_to_end = 0.797
 trail_lifetime = 0.01
 

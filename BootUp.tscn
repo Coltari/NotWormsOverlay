@@ -1,0 +1,123 @@
+[gd_scene load_steps=2 format=3 uid="uid://61sxgynwdxvh"]
+
+[ext_resource type="Script" path="res://BootUp.gd" id="1_g7s61"]
+
+[node name="BootUp" type="CanvasLayer"]
+script = ExtResource("1_g7s61")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -65.5
+offset_top = -56.0
+offset_right = 65.5
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+text = "Client ID:"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+text = "Client Secret:"
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+text = "Channel Name:"
+vertical_alignment = 1
+
+[node name="Label4" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+text = "OAuth Redirect:"
+vertical_alignment = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CenterContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="TextEdit" type="TextEdit" parent="CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(250, 35)
+layout_mode = 2
+placeholder_text = "Client ID"
+
+[node name="TextEdit2" type="TextEdit" parent="CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(250, 35)
+layout_mode = 2
+placeholder_text = "Client Secret"
+
+[node name="TextEdit3" type="TextEdit" parent="CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(250, 35)
+layout_mode = 2
+placeholder_text = "Channel Name"
+
+[node name="TextEdit4" type="TextEdit" parent="CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(250, 35)
+layout_mode = 2
+placeholder_text = "default \"http://localhost:7170\""
+
+[node name="Button" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Save Settings"
+
+[node name="popup" type="Control" parent="CenterContainer"]
+visible = false
+custom_minimum_size = Vector2(500, 500)
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="CenterContainer/popup"]
+custom_minimum_size = Vector2(500, 500)
+layout_mode = 2
+offset_right = 500.0
+offset_bottom = 500.0
+color = Color(0, 0, 0, 0.721569)
+
+[node name="Button2" type="Button" parent="CenterContainer/popup"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = 125.0
+offset_right = 75.0
+offset_bottom = 175.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "OK."
+
+[node name="Label" type="Label" parent="CenterContainer/popup"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 5.0
+offset_right = 475.0
+offset_bottom = 405.0
+text = "App Needs to Restart After Saving Settings.
+
+Click OK to Close. 
+
+Then Please restart manually."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="CenterContainer/popup/Button2" to="." method="_on_button_2_pressed"]
