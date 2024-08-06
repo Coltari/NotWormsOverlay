@@ -177,10 +177,10 @@ func generate_level():
 	surfacenoise.seed = randi()
 	
 	for x in 1160:
-		if x % 4 != 0:
+		if x % 2 != 0:
 			continue
 		for y in 252:
-			if y % 4 != 0:
+			if y % 2 != 0:
 				continue
 			var n = noise.get_noise_2d(x,y)
 			#get this value at x.
