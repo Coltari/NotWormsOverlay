@@ -82,7 +82,7 @@ terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
 sources/0 = SubResource("TileSetAtlasSource_6arjx")
 
 [node name="TileMap" type="TileMap" groups=["ground"]]
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.25, 0.25)
 tile_set = SubResource("TileSet_6o1fi")
 format = 2
 layer_0/name = "Ground"
