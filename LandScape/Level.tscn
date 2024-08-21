@@ -213,3 +213,5 @@ one_shot = true
 [connection signal="body_entered" from="walldeath" to="." method="_on_walldeath_body_entered"]
 [connection signal="timeout" from="WindTimer" to="." method="_on_wind_timer_timeout"]
 [connection signal="timeout" from="NotifTimer" to="." method="_on_notif_timer_timeout"]
+
+[editable path="ground/TileMap"]
