@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://cabr002sdouvf"]
+[gd_scene load_steps=12 format=3 uid="uid://cabr002sdouvf"]
 
 [ext_resource type="Script" path="res://LandScape/Level.gd" id="1_ydmjt"]
+[ext_resource type="Script" path="res://LandScape/Fift.gd" id="2_d4mac"]
 [ext_resource type="PackedScene" uid="uid://bbeqyii41yy25" path="res://Entities/dirt.tscn" id="3_m744f"]
 [ext_resource type="Texture2D" uid="uid://crr2d6qa7d6ik" path="res://assets/images/wave.png" id="3_t88ic"]
 [ext_resource type="Texture2D" uid="uid://bn18nkyv33s5a" path="res://assets/images/9patch.png" id="4_5xtc3"]
@@ -29,6 +30,9 @@ fractal_gain = 0.75
 script = ExtResource("1_ydmjt")
 noise = SubResource("FastNoiseLite_2nncq")
 surfacenoise = SubResource("FastNoiseLite_hdmjw")
+
+[node name="Gift" type="Node" parent="."]
+script = ExtResource("2_d4mac")
 
 [node name="water" type="Node" parent="."]
 
@@ -207,6 +211,7 @@ one_shot = true
 wait_time = 2.0
 one_shot = true
 
+[connection signal="chat_message" from="Gift" to="." method="_on_gift_chat_message"]
 [connection signal="pressed" from="ui/VBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="ui/VBoxContainer/Button2" to="." method="_on_button_2_pressed"]
 [connection signal="body_entered" from="deathzone" to="." method="_on_deathzone_body_entered"]
