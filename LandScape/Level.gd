@@ -27,27 +27,17 @@ var windtarget : int = 0
 var levelready : bool = false
 
 var notifications = []
-var twitch_irc_channel : TwitchIrcChannel
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	twitch_irc_channel = TwitchIrcChannel.new()
-	twitch_irc_channel.channel_name = Events.channelName
-	twitch_irc_channel.message_received.connect(_on_twitch_irc_channel_message_received)
-	add_child(twitch_irc_channel)
 	#setDetails()
 	setWaterLevel()
 	get_viewport().transparent_bg = true
 	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_TRANSPARENT, true, 0)
-	TwitchService.setup();
 	generate_level()
 	aChangeInTheWind()
 	Events.add_rocket.connect(add_rocket)
 	Events.add_explosion.connect(add_explosion)
-
-func setDetails():
-	twitch_irc_channel.channel_name = Events.channelName
-	twitch_irc_channel.is_joined()
 
 func setWaterLevel():
 	for c in water.get_children():
@@ -63,7 +53,6 @@ func setWaterLevel():
 		elif c.get_name() == "front2":
 			c.position.y = 640
 			c.position.x = 576
-		
 
 func add_explosion(explosion):
 	call_deferred("add_child",explosion)
@@ -106,7 +95,8 @@ func _process(_delta):
 		wind_bar_left.value = 0
 		wind_bar_right.value = 0
 
-func _on_twitch_irc_channel_message_received(from_user, message, _tags):
+func _on_twitch_irc_channel_message_received(data, message, _tags):
+	var from_user = data.tags["display-name"]
 	message = message.to_lower()
 	var player
 	for n in players.get_children():
@@ -296,3 +286,7 @@ func checkForNotifications():
 		label.text = notifications.pop_front()
 		notifback.visible = true
 		notif_timer.start()
+
+
+func _on_gift_chat_message(sender_data: SenderData, message: Variant) -> void:
+	_on_twitch_irc_channel_message_received(sender_data, message, null)
